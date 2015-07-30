@@ -1,0 +1,29 @@
+(gdb) bt
+#0  ExampleTcpClient::onConnected (this=0xbfffed4c, error=0) at MQAA/tcpClient.cpp:77
+#1  0x080541a2 in ec::TcpClient::handleEvent (this=0xbfffed4c, events=128) at src/tcpClient.cpp:78
+#2  0x08054220 in ec::TcpClient::eventCallback (bev=0xb7ae3efc, events=128, ctx=0xbfffed4c) at src/tcpClient.cpp:102
+#3  0x080666b6 in bufferevent_run_deferred_callbacks_locked (cb=0xb7ae3fd4, arg=0xb7ae3efc)
+    at /home/napoleon/Desktop/GCC_4_7_0/git/Libevent/bufferevent.c:146
+#4  0x0806f364 in event_process_active_single_queue (base=0xb75b4e80, activeq=0xb75baff8, max_to_process=2147483647, endtime=0x0)
+        at /home/napoleon/Desktop/GCC_4_7_0/git/Libevent/event.c:1605
+#5  0x0806f7fd in event_process_active (base=0xb75b4e80) at /home/napoleon/Desktop/GCC_4_7_0/git/Libevent/event.c:1691
+#6  0x0806fe5d in event_base_loop (base=0xb75b4e80, flags=0) at /home/napoleon/Desktop/GCC_4_7_0/git/Libevent/event.c:1914
+#7  0x0804dfdb in ec::Loop::run (this=0xbfffec60) at src/loop.cpp:171
+#8  0x08053f14 in std::_Mem_fn<void (ec::Loop::*)()>::operator()<, void>(ec::Loop*) const (this=0xb7ad5ff4, __object=0xbfffec60)
+	    at /usr/include/c++/4.8/functional:601
+#9  0x08053ea5 in std::_Bind<std::_Mem_fn<void (ec::Loop::*)()> (ec::Loop*)>::__call<void, , 0u>(std::tuple<>&&, std::_Index_tuple<0u>) (this=0xb7ad5ff4, 
+		    __args=<unknown type in /home/napoleon/Desktop/GCC_4_7_0/git/Libevent-C++11-Client/MQAA-Client, CU 0x58b6, DIE 0x1a528>)
+    at /usr/include/c++/4.8/functional:1296
+#10 0x08053e29 in std::_Bind<std::_Mem_fn<void (ec::Loop::*)()> (ec::Loop*)>::operator()<, void>() (this=0xb7ad5ff4)
+        at /usr/include/c++/4.8/functional:1355
+#11 0x08053dcf in std::_Bind_simple<std::_Bind<std::_Mem_fn<void (ec::Loop::*)()> (ec::Loop*)> ()>::_M_invoke<>(std::_Index_tuple<>)
+	    (this=0xb7ad5ff4) at /usr/include/c++/4.8/functional:1732
+#12 0x08053d47 in std::_Bind_simple<std::_Bind<std::_Mem_fn<void (ec::Loop::*)()> (ec::Loop*)> ()>::operator()() (this=0xb7ad5ff4)
+	        at /usr/include/c++/4.8/functional:1720
+#13 0x08053cfc in std::thread::_Impl<std::_Bind_simple<std::_Bind<std::_Mem_fn<void (ec::Loop::*)()> (ec::Loop*)> ()> >::_M_run() (
+		    this=0xb7ad5fe8) at /usr/include/c++/4.8/thread:115
+#14 0xb7e0f4fe in ?? () from /usr/lib/libstdc++.so.6
+#15 0xb7e6007a in start_thread () from /lib/libpthread.so.0
+#16 0xb7c4080e in clone () from /lib/libc.so.6
+(gdb) b src/tcpSocket.cpp:48
+

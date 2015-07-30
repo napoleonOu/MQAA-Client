@@ -1,0 +1,59 @@
+(gdb) p dataSize
+$2 = 12
+(gdb) n
+41                      set(data, dataSize);
+(gdb) p data
+$3 = (const uint8_t *) 0xb7534fa4 "\r"
+(gdb) p *data
+$4 = 13 '\r'
+(gdb) p dataSize
+$5 = 12
+(gdb) n
+round 2
+42              }
+(gdb) n
+round 3
+ec::Loop::post (this=0xb7acfee0, data=0xb7534fa4 "\r", dataSize=12) at src/loop.cpp:127
+127     }
+(gdb) l
+122     }
+123
+124     void Loop::post(uint8_t *data, uint16_t dataSize)
+	125     {
+		126             _asyncPosts.push(new ec::Data(data, dataSize));
+		127     }
+		128
+		129     void Loop::regAsyncHandler(ec::Command cmd, ec::AsyncHandler handler)
+	130     {
+		131             _asyncHandlers[cmd] = handler;
+		(gdb) n
+			ec::Loop::post<ec::TcpServerDispatcher::NewSessionData> (this=0xb7acfee0, value=...) at ./include/ec/loop.h:152
+			152             }
+(gdb) bt
+#0  ec::Loop::post<ec::TcpServerDispatcher::NewSessionData> (this=0xb7acfee0, value=...) at ./include/ec/loop.h:152
+#1  0x08052b70 in ec::TcpServer::listenEventCallback (listener=0xb7ad9f9c, sock=13, addr=0xb7535000, len=16, 
+		    ctx=0x808f500 <ec::Singleton<ExampleTcpServer>::instance()::ins>) at src/tcpServer.cpp:121
+#2  0x08074d39 in listener_read_cb (fd=7, what=2, p=0xb7ad9f9c) at /home/napoleon/Desktop/GCC_4_7_0/git/Libevent/listener.c:418
+#3  0x08066ebb in event_persist_closure (base=0xb7adbe80, ev=0xb7ad9fc0)
+    at /home/napoleon/Desktop/GCC_4_7_0/git/Libevent/event.c:1533
+#4  0x0806714f in event_process_active_single_queue (base=0xb7adbe80, activeq=0xb7ae1ff8, max_to_process=2147483647, endtime=0x0)
+        at /home/napoleon/Desktop/GCC_4_7_0/git/Libevent/event.c:1592
+#5  0x080676d1 in event_process_active (base=0xb7adbe80) at /home/napoleon/Desktop/GCC_4_7_0/git/Libevent/event.c:1691
+#6  0x08067d31 in event_base_loop (base=0xb7adbe80, flags=0) at /home/napoleon/Desktop/GCC_4_7_0/git/Libevent/event.c:1914
+#7  0x0804c29b in ec::Loop::run (this=0xb7acfee0) at src/loop.cpp:171
+#8  0x080521d4 in std::_Mem_fn<void (ec::Loop::*)()>::operator()<, void>(ec::Loop*) const (this=0xb7af1ff4, __object=0xb7acfee0)
+	    at /usr/include/c++/4.8/functional:601
+#9  0x08052165 in std::_Bind<std::_Mem_fn<void (ec::Loop::*)()> (ec::Loop*)>::__call<void, , 0u>(std::tuple<>&&, std::_Index_tuple<0u>) (this=0xb7af1ff4, __args=<unknown type in /home/napoleon/Desktop/GCC_4_7_0/git/Libevent-C++11/MQAA-EC, CU 0x58b6, DIE 0x1a528>)
+	        at /usr/include/c++/4.8/functional:1296
+#10 0x080520e9 in std::_Bind<std::_Mem_fn<void (ec::Loop::*)()> (ec::Loop*)>::operator()<, void>() (this=0xb7af1ff4)
+		    at /usr/include/c++/4.8/functional:1355
+#11 0x0805208f in std::_Bind_simple<std::_Bind<std::_Mem_fn<void (ec::Loop::*)()> (ec::Loop*)> ()>::_M_invoke<>(std::_Index_tuple<>)
+		        (this=0xb7af1ff4) at /usr/include/c++/4.8/functional:1732
+#12 0x08052007 in std::_Bind_simple<std::_Bind<std::_Mem_fn<void (ec::Loop::*)()> (ec::Loop*)> ()>::operator()() (this=0xb7af1ff4)
+			    at /usr/include/c++/4.8/functional:1720
+#13 0x08051fbc in std::thread::_Impl<std::_Bind_simple<std::_Bind<std::_Mem_fn<void (ec::Loop::*)()> (ec::Loop*)> ()> >::_M_run() (
+		    this=0xb7af1fe8) at /usr/include/c++/4.8/thread:115
+#14 0xb7e0d4fe in ?? () from /usr/lib/libstdc++.so.6
+#15 0xb7e5e07a in start_thread () from /lib/libpthread.so.0
+#16 0xb7c3e80e in clone () from /lib/libc.so.6
+

@@ -1,0 +1,53 @@
+(gdb) bt
+#0  ExampleTcpServer::onSessionRead (this=0x808f500 <ec::Singleton<ExampleTcpServer>::instance()::ins>, session=0xb7b2bfe0)
+    at example/tcpExample.cpp:55
+#1  0x08055b0b in ec::TcpSession::readCallback (bev=0xb7b2fefc, data=0xb7b2bfe0) at src/tcpSession.cpp:55
+#2  0x0805e5d9 in bufferevent_run_deferred_callbacks_locked (cb=0xb7b2ffd4, arg=0xb7b2fefc)
+        at /home/napoleon/Desktop/GCC_4_7_0/git/Libevent/bufferevent.c:150
+#3  0x08067238 in event_process_active_single_queue (base=0xb7adbe80, activeq=0xb7ae1ff8, max_to_process=2147483647, endtime=0x0)
+	    at /home/napoleon/Desktop/GCC_4_7_0/git/Libevent/event.c:1605
+#4  0x080676d1 in event_process_active (base=0xb7adbe80) at /home/napoleon/Desktop/GCC_4_7_0/git/Libevent/event.c:1691
+#5  0x08067d31 in event_base_loop (base=0xb7adbe80, flags=0) at /home/napoleon/Desktop/GCC_4_7_0/git/Libevent/event.c:1914
+#6  0x0804c29b in ec::Loop::run (this=0xb7acfee0) at src/loop.cpp:171
+#7  0x080521d4 in std::_Mem_fn<void (ec::Loop::*)()>::operator()<, void>(ec::Loop*) const (this=0xb7af1ff4, __object=0xb7acfee0)
+	        at /usr/include/c++/4.8/functional:601
+#8  0x08052165 in std::_Bind<std::_Mem_fn<void (ec::Loop::*)()> (ec::Loop*)>::__call<void, , 0u>(std::tuple<>&&, std::_Index_tuple<0u>) (this=0xb7af1ff4, __args=<unknown type in /home/napoleon/Desktop/GCC_4_7_0/git/Libevent-C++11/MQAA-EC, CU 0x58b6, DIE 0x1a528>)
+		    at /usr/include/c++/4.8/functional:1296
+#9  0x080520e9 in std::_Bind<std::_Mem_fn<void (ec::Loop::*)()> (ec::Loop*)>::operator()<, void>() (this=0xb7af1ff4)
+		        at /usr/include/c++/4.8/functional:1355
+#10 0x0805208f in std::_Bind_simple<std::_Bind<std::_Mem_fn<void (ec::Loop::*)()> (ec::Loop*)> ()>::_M_invoke<>(std::_Index_tuple<>)
+			    (this=0xb7af1ff4) at /usr/include/c++/4.8/functional:1732
+#11 0x08052007 in std::_Bind_simple<std::_Bind<std::_Mem_fn<void (ec::Loop::*)()> (ec::Loop*)> ()>::operator()() (this=0xb7af1ff4)
+			        at /usr/include/c++/4.8/functional:1720
+#12 0x08051fbc in std::thread::_Impl<std::_Bind_simple<std::_Bind<std::_Mem_fn<void (ec::Loop::*)()> (ec::Loop*)> ()> >::_M_run() (
+		    this=0xb7af1fe8) at /usr/include/c++/4.8/thread:115
+#13 0xb7e0d4fe in ?? () from /usr/lib/libstdc++.so.6
+#14 0xb7e5e07a in start_thread () from /lib/libpthread.so.0
+#15 0xb7c3e80e in clone () from /lib/libc.so.6
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+问题这个event的值在哪设置 doEvent传过来的
+
+Breakpoint 1, ec::Loop::doEvent (this=0xb7acfee0, event=ec::Loop::kEventStart) at src/loop.cpp:248
+warning: Source file is more recent than executable.
+248                     return handler ? handler(event) : onEvent(event);
+(gdb) bt
+#0  ec::Loop::doEvent (this=0xb7acfee0, event=ec::Loop::kEventStart) at src/loop.cpp:248
+#1  0x0804bee1 in ec::Loop::startThread (this=0xb7acfee0) at src/loop.cpp:75
+#2  0x08052887 in ec::TcpServer::listen (this=0x808f500 <ec::Singleton<ExampleTcpServer>::instance()::ins>, 
+		    ip=0x80781a6 "127.0.0.1", port=4567) at src/tcpServer.cpp:71
+#3  0x08056a41 in tcpExample () at example/tcpExample.cpp:110
+#4  0x08056a0b in main () at test.cpp:14
+

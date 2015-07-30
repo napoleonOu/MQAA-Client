@@ -1,0 +1,31 @@
+package ec;
+message LoginRequest
+{
+	required bytes username = 1;
+	optional string password = 2;
+}
+message LoginResponse
+{
+	required fixed32 ttl = 1;
+}
+message ZhuTiCanShu
+{
+	
+	required string opt =1 ;//操作类型 确定，取消，参数导入，参数导出
+	required float doukou =2;//斗口大小
+       	optional string jiegouxingshi =3;//结构形式
+       	optional fixed32 tanshu =4;//檀数
+       	optional string langxingshi =5;//廊形式
+       	optional fixed32 jianshu =6;//间数
+		
+	required float zuo3miankuo =7;//
+	required float zuo2miankuo =8;//
+	required float zuo1miankuo =9;//
+	required float mingjianmiankuo =10;//
+	required float you1miankuo =11;//
+
+}
+message ZhuTiCanShuResponse
+{
+	required string ok=1;
+}
